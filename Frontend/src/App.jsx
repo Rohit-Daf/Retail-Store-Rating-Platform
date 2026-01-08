@@ -1,39 +1,91 @@
-import { useState } from 'react'
-
 import { Routes, Route } from 'react-router-dom'
 import Login from './pages/Login'
 import Register from './pages/Register'
-import Store from './pages/Store'
-import Admin from './pages/Admin'
-import Owner from './pages/Owner'
+import Stores from './pages/Stores'
+import AdminDashboard from './pages/AdminDashboard'
+import OwnerDashboard from './pages/OwnerDashboard'
 import ProtectedRoute from './components/ProtectedRoute'
+import UpdatePassword from './pages/UpdatePassword'
+import AddUser from './pages/AddUser'
+import AddStore from './pages/AddStore'
+import Navbar from './components/Navbar'
+
+const Layout = ({ children }) => (
+  <>
+    <Navbar />
+    {children}
+  </>
+);
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+
+      {/* Search/User Routes */}
       <Route
-        path="/store"
+        path="/stores"
         element={
           <ProtectedRoute allowedRoles={['USER']}>
-            <Store />
+            <Layout>
+              <Stores />
+            </Layout>
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/update-password"
+        element={
+          <ProtectedRoute allowedRoles={['USER', 'STORE_OWNER', 'ADMIN']}>
+            <Layout>
+              <UpdatePassword />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Admin Routes */}
       <Route
         path="/admin"
         element={
           <ProtectedRoute allowedRoles={['ADMIN']}>
-            <Admin />
+            <Layout>
+              <AdminDashboard />
+            </Layout>
           </ProtectedRoute>
         }
       />
       <Route
+        path="/admin/add-user"
+        element={
+          <ProtectedRoute allowedRoles={['ADMIN']}>
+            <Layout>
+              <AddUser />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/add-store"
+        element={
+          <ProtectedRoute allowedRoles={['ADMIN']}>
+            <Layout>
+              <AddStore />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Owner Routes */}
+      <Route
         path="/owner"
         element={
           <ProtectedRoute allowedRoles={['STORE_OWNER']}>
-            <Owner />
+            <Layout>
+              <OwnerDashboard />
+            </Layout>
           </ProtectedRoute>
         }
       />

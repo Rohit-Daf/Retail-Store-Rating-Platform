@@ -2,13 +2,15 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import api from '../api/api';
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
 
         if (!email || !password) {
@@ -16,15 +18,49 @@ export default function Login() {
             return;
         }
 
-        localStorage.setItem('token', 'dummy-token');
-        localStorage.setItem('role', 'USER');
+        try {
+            setLoading(true);
+            const response = await api.post('/user/login', { email, password });
 
-        toast.success('Login successful!');
+            console.log('Login response:', response.data);
 
-        // Slight delay to allow toast to be seen, though standard nav is almost instant
-        setTimeout(() => {
-            navigate('/store');
-        }, 1000);
+            let { token, role } = response.data.data;
+
+            console.log('Extracted token:', token);
+            console.log('Extracted role:', role);
+
+            // Fix truncated role from backend (database column too short)
+            if (role === 'STORE_O') {
+                role = 'STORE_OWNER';
+                console.log('Normalized truncated role to: STORE_OWNER');
+            }
+
+            localStorage.setItem('token', token);
+            localStorage.setItem('role', role);
+
+            console.log('Stored in localStorage - role:', localStorage.getItem('role'));
+
+            toast.success('Login successful!');
+
+            // Small delay to ensure localStorage is set
+            setTimeout(() => {
+                if (role === 'ADMIN') {
+                    console.log('Navigating to /admin');
+                    navigate('/admin');
+                } else if (role === 'STORE_OWNER') {
+                    console.log('Navigating to /owner');
+                    navigate('/owner');
+                } else {
+                    console.log('Navigating to /stores');
+                    navigate('/stores');
+                }
+            }, 100);
+        } catch (error) {
+            console.error('Login error:', error);
+            toast.error(error.response?.data?.message || 'Login failed. Please try again.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -58,9 +94,10 @@ export default function Login() {
 
                     <button
                         type="submit"
-                        className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-md font-medium transition-colors"
+                        disabled={loading}
+                        className={`w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-md font-medium transition-colors ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
                     >
-                        Sign In
+                        {loading ? 'Signing In...' : 'Sign In'}
                     </button>
                 </form>
 
