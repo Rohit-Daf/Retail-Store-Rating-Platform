@@ -53,10 +53,10 @@ router.post("/login", (req, res) => {
 
         res.send(result.createResult(error, user));
       } else {
-        res.send(result.createResult("Invalid Password"));
+        res.status(401).send(result.createResult("Invalid Password"));
       }
     } else {
-      res.send(result.createResult("Invalid Email"));
+      res.status(401).send(result.createResult("Invalid Email"));
     }
   });
 });

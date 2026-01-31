@@ -8,13 +8,18 @@ import ProtectedRoute from './components/ProtectedRoute'
 import UpdatePassword from './pages/UpdatePassword'
 import AddUser from './pages/AddUser'
 import AddStore from './pages/AddStore'
+import StoreDetails from './pages/StoreDetails'
+import Footer from './components/Footer'
 import Navbar from './components/Navbar'
 
 const Layout = ({ children }) => (
-  <>
+  <div className="flex flex-col min-h-screen">
     <Navbar />
-    {children}
-  </>
+    <div className="flex-1">
+      {children}
+    </div>
+    <Footer />
+  </div>
 );
 
 function App() {
@@ -31,6 +36,16 @@ function App() {
           <ProtectedRoute allowedRoles={['USER']}>
             <Layout>
               <Stores />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/stores/:id"
+        element={
+          <ProtectedRoute allowedRoles={['USER']}>
+            <Layout>
+              <StoreDetails />
             </Layout>
           </ProtectedRoute>
         }

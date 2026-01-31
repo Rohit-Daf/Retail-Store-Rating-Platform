@@ -24,7 +24,17 @@ export default function Login() {
 
             console.log('Login response:', response.data);
 
-            let { token, role } = response.data.data;
+            const { status, data, error } = response.data;
+
+            if (status !== 'success') {
+                throw new Error(error || 'Login failed');
+            }
+
+            if (!data || !data.token) {
+                throw new Error('Invalid response format from server');
+            }
+
+            let { token, role } = data;
 
             console.log('Extracted token:', token);
             console.log('Extracted role:', role);
@@ -57,7 +67,8 @@ export default function Login() {
             }, 100);
         } catch (error) {
             console.error('Login error:', error);
-            toast.error(error.response?.data?.message || 'Login failed. Please try again.');
+            const errorMessage = error.response?.data?.error || error.message || 'Login failed. Please try again.';
+            toast.error(errorMessage);
         } finally {
             setLoading(false);
         }

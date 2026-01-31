@@ -9,6 +9,7 @@ router.get("/", (req, res) => {
   const sql = `
         SELECT s.s_id, s.name, s.address,
                AVG(r.rating) AS avg_rating,
+               COUNT(r.rating) AS rating_count,
                (SELECT rating FROM ratings WHERE u_id = ? AND s_id = s.s_id) AS user_rating
         FROM stores s
         LEFT JOIN ratings r ON s.s_id = r.s_id
@@ -23,7 +24,7 @@ router.get("/", (req, res) => {
 router.get("/search", (req, res) => {
   const { q } = req.query;
   const sql = `
-        SELECT s.s_id, s.name, s.address, AVG(r.rating) AS avg_rating
+        SELECT s.s_id, s.name, s.address, AVG(r.rating) AS avg_rating, COUNT(r.rating) AS rating_count
         FROM stores s
         LEFT JOIN ratings r ON s.s_id = r.s_id
         WHERE s.name LIKE ? OR s.address LIKE ?
