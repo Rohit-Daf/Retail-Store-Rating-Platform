@@ -1,6 +1,6 @@
 const config = {
-  saltRounds: 10,
-  secret: "jjadisbdf98y287923jdbsdj982y398dhsauibd3298hd",
+  saltRounds: parseInt(process.env.SALT_ROUNDS) || 10,
+  secret: process.env.JWT_SECRET,
 };
 
 module.exports = config;
