@@ -1,3 +1,15 @@
+# Node
+node_modules/
+npm-debug.log*
+
+# .NET
+bin/
+obj/
+.vs/
+
+# OS / Editor
+.DS_Store
+*.log
 .node_modules
 # Node
 node_modules/

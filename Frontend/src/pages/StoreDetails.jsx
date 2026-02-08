@@ -113,81 +113,33 @@ const StoreDetails = () => {
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 mt-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
-                <div className="lg:col-span-2 space-y-8">
-                    {/* Rating Distribution */}
-                    <section className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-                        <h2 className="text-xl font-bold text-gray-900 mb-6">Rating Distribution</h2>
-                        <div className="space-y-4">
-                            {[5, 4, 3, 2, 1].map((star) => (
-                                <div key={star} className="flex items-center gap-4">
-                                    <span className="text-sm font-medium text-gray-500 w-4">{star}</span>
-                                    <div className="flex-1 h-2.5 bg-gray-100 rounded-full overflow-hidden">
-                                        <div
-                                            className="h-full bg-indigo-500 rounded-full"
-                                            style={{ width: `${Math.random() * 80 + 10}%` }} // Simplified for visual mockup
-                                        />
-                                    </div>
-                                    <span className="text-xs font-medium text-gray-400 w-8 text-right">
-                                        {Math.floor(Math.random() * (store.rating_count || 5))}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
+            <div className="max-w-2xl mx-auto px-4 mt-12 pb-20">
+                <div className="bg-white p-8 rounded-2xl shadow-xl shadow-indigo-100 border border-indigo-50">
+                    <h3 className="text-lg font-bold text-gray-900 mb-6 font-poppins">Your Feedback</h3>
+                    <p className="text-sm text-gray-500 mb-8 leading-relaxed">How would you rate your experience with {store.name}?</p>
 
-                    {/* Placeholder for User Reviews section */}
-                    <section className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-                        <h2 className="text-xl font-bold text-gray-900 mb-6 font-poppins">Recent Activity</h2>
-                        <div className="space-y-6">
-                            {[1, 2, 3].map(i => (
-                                <div key={i} className="flex gap-4 pb-6 border-b border-gray-50 last:border-0 last:pb-0">
-                                    <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">U</div>
-                                    <div className="space-y-1 flex-1">
-                                        <div className="flex justify-between items-center">
-                                            <h4 className="font-semibold text-gray-900 text-sm">Anonymous User</h4>
-                                            <span className="text-xs text-gray-400">2 days ago</span>
-                                        </div>
-                                        <div className="flex gap-0.5 mb-2">
-                                            {[1, 2, 3, 4, 5].map(s => <span key={s} className="text-yellow-400 text-xs">★</span>)}
-                                        </div>
-                                        <p className="text-sm text-gray-600 leading-relaxed italic">"Great experience at this store! Highly recommend."</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-                </div>
-
-                {/* Sidebar Sticky Area */}
-                <div className="lg:sticky lg:top-32 h-fit">
-                    <div className="bg-white p-8 rounded-2xl shadow-xl shadow-indigo-100 border border-indigo-50">
-                        <h3 className="text-lg font-bold text-gray-900 mb-6 font-poppins">Your Feedback</h3>
-                        <p className="text-sm text-gray-500 mb-8 leading-relaxed">How would you rate your experience with {store.name}?</p>
-
-                        <div className="flex justify-between mb-8 px-2">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                                <button
-                                    key={star}
-                                    onClick={() => setRatingValue(star)}
-                                    className={`text-4xl transition-all duration-200 hover:scale-125 ${star <= ratingValue ? 'text-yellow-400 drop-shadow-md' : 'text-gray-200'}`}
-                                >
-                                    ★
-                                </button>
-                            ))}
-                        </div>
-
-                        <button
-                            onClick={handleSubmitRating}
-                            disabled={submitting || ratingValue === 0}
-                            className={`w-full py-4 rounded-xl font-bold text-sm transition-all duration-300 shadow-lg ${ratingValue > 0
-                                ? 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-indigo-100'
-                                : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                }`}
-                        >
-                            {submitting ? 'Submitting...' : 'Rate Now'}
-                        </button>
+                    <div className="flex justify-between mb-8 px-2">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                            <button
+                                key={star}
+                                onClick={() => setRatingValue(star)}
+                                className={`text-4xl transition-all duration-200 hover:scale-125 ${star <= ratingValue ? 'text-yellow-400 drop-shadow-md' : 'text-gray-200'}`}
+                            >
+                                ★
+                            </button>
+                        ))}
                     </div>
+
+                    <button
+                        onClick={handleSubmitRating}
+                        disabled={submitting || ratingValue === 0}
+                        className={`w-full py-4 rounded-xl font-bold text-sm transition-all duration-300 shadow-lg ${ratingValue > 0
+                            ? 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-indigo-100'
+                            : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                            }`}
+                    >
+                        {submitting ? 'Submitting...' : 'Rate Now'}
+                    </button>
                 </div>
             </div>
         </div>
