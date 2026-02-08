@@ -40,7 +40,7 @@ export default function Stores() {
                 store.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 store.address?.toLowerCase().includes(searchTerm.toLowerCase());
 
-            const rating = parseFloat(store.avg_rating) || 0;
+            const rating = store.rankingScore ?? store.avg_rating ?? 0;
             const matchesRating = filterRating === 'all'
                 ? true
                 : Math.floor(rating) === parseInt(filterRating);
@@ -50,7 +50,11 @@ export default function Stores() {
 
         result.sort((a, b) => {
             if (sortBy === 'name') return a.name.localeCompare(b.name);
-            if (sortBy === 'rating') return (parseFloat(b.avg_rating) || 0) - (parseFloat(a.avg_rating) || 0);
+            if (sortBy === 'rating') {
+                const ratingA = a.rankingScore ?? a.avg_rating ?? 0;
+                const ratingB = b.rankingScore ?? b.avg_rating ?? 0;
+                return ratingB - ratingA;
+            }
             return 0;
         });
 
@@ -142,7 +146,7 @@ export default function Stores() {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {filteredAndSortedStores.map((store) => {
-                            const avg = parseFloat(store.avg_rating) || 0;
+                            const avg = store.rankingScore ?? store.avg_rating ?? 0;
                             return (
                                 <div
                                     key={store.s_id}

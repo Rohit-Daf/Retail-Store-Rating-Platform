@@ -22,8 +22,8 @@ export default function Register() {
     const validate = () => {
         const { name, email, address, password, confirmPassword } = formData;
 
-        if (name.length < 20 || name.length > 60) {
-            toast.error('Name must be between 20 and 60 characters');
+        if (name.length < 3 || name.length > 60) {
+            toast.error('Name must be between 3 and 60 characters');
             return false;
         }
 
@@ -120,7 +120,7 @@ export default function Register() {
                             value={formData.name}
                             onChange={handleChange}
                             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            placeholder="Enter your full name (20-60 characters)"
+                            placeholder="Enter your full name (3-60 characters)"
                         />
                     </div>
 

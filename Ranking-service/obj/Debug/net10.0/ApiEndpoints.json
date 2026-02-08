@@ -1,0 +1,18 @@
+[
+  {
+    "ContainingType": "Ranking_service.Controllers.RankingController",
+    "Method": "Calculate",
+    "RelativePath": "api/rankings/calculate",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stores",
+        "Type": "System.Collections.Generic.List\u00601[[Ranking_service.Models.StoreRating, Ranking-service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
