@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: '../.env' });
 const express = require("express");
 const cors = require("cors");
 
@@ -17,6 +17,7 @@ app.use("/user", userRouter);
 app.use("/store", storeRouter);
 app.use("/admin", adminRouter);
 
-app.listen(4000, "localhost", () => {
-  console.log("server started at port 4000");
+const port = process.env.PORT || 4000;
+app.listen(port, "localhost", () => {
+  console.log(`server started at port ${port}`);
 });

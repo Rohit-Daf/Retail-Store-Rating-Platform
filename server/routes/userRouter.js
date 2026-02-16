@@ -29,6 +29,7 @@ router.post("/register", async (req, res) => {
 // Login (all roles)
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
+  console.log(`Login attempt for email: '${email}'`); // Debug log
   const sql = `SELECT * FROM users WHERE email = ?`;
 
   pool.query(sql, [email], async (error, data) => {

@@ -31,7 +31,7 @@ router.get("/", (req, res) => {
         ratings: s.raw_ratings ? s.raw_ratings.split(',').map(Number) : []
       }));
 
-      const response = await axios.post("http://localhost:5076/api/rankings/calculate", rankingPayload);
+      const response = await axios.post(process.env.RANKING_SERVICE_URL || "http://localhost:5076/api/rankings/calculate", rankingPayload);
 
       // O(1) Loopup Map
       const rankingMap = new Map();
